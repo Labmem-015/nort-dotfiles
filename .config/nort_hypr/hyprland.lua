@@ -30,26 +30,15 @@ hl.config({
 local terminal = "foot" -- kitty
 local file_manager = "nemo"
 --local menu = "wofi --show drun"
-local kitty_args
+local kitty_args = ""
 if terminal == "kitty" then
 	kitty_args = "-o background_opacity=0.85"
 end
 
------ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ -----------------------------------------------------
-
-hl.env("XCURSOR_SIZE", 24)
-hl.env("QT_QPA_PLATFORMTHEME", "qt6ct") -- change to qt6ct if you have that
-hl.env("XDG_CURRENT_DESKTOP", "Hyprland;")
-hl.env("XDG_SESSION_TYPE", "wayland;")
-hl.env("XDG_SESSION_DESKTOP", "Hyprland;")
-hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "0;")
-hl.env("QT_QPA_PLATFORM", "wayland;")
-hl.env("QT_QPA_PLATFORMTHEME", "gtk3;")
-
 ----- ПОДКЛЮЧЕНИЕ ДОПОЛНИТЕЛЬНЫХ ФАЙЛОВ С КОНФИГОМ  ----------------------------
 
 -- Source a file (multi-file configs)
--- source = ~/.config/hypr/myColors.conf
+-- require("nested_folder.myColors")
 
 ----- ГАПСЫ, БОРДЕРЫ, ЦВЕТА... -------------------------------------------------
 
@@ -65,6 +54,9 @@ hl.config({
             active_border = { colors = { "rgba(f2cdcdee)", "rgba(f5e0dcee)" }, angle = 45 },
             inactive_border = "rgba(1e1e2eff)",
         },
+    },
+	dwindle = {
+        preserve_split = true, -- Keeps the split direction permanent
     },
 })
 
@@ -101,13 +93,6 @@ hl.config({
 ----- НАСТРОЙКА ЛАЙОУТОВ -------------------------------------------------------
 
 hl.config({
-    dwindle = {
-        pseudotile = true,
-        preserve_split = true,
-    },
-})
-
-hl.config({
     master = {
         new_status = "master",
     },
@@ -119,7 +104,7 @@ hl.config({
     misc = {
         force_default_wallpaper = -1,
         -- Set to 0 or 1 to disable the anime mascot wallpapers
-        disable_hyprland_logo = "falses",
+        disable_hyprland_logo = true, 
         -- If true disables the random hyprland logo / anime girl background. :(
     },
 })
@@ -128,18 +113,14 @@ hl.config({
 
 hl.config({
     input = {
-        kb_layout = { "us", "ru" },
-        kb_variant = {  },
-        kb_model = {  },
+        kb_layout = "us,ru",
         kb_options = "grp:win_space_toggle",
-        kb_rules = {  },
         follow_mouse = 1,
         sensitivity = 0,
-        -- -1.0 - 1.0, 0 means no modification.
         numlock_by_default = true,
         touchpad = {
             natural_scroll = true,
-            scroll_factor = 0.2,
+            scroll_factor = 0.45,
         },
     },
 })
@@ -165,19 +146,20 @@ local mainMod = "SUPER"
 
 ----- ЗАПУСК ПРИЛОЖЕНИЙ --------------------------------------------------------
 
-hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terimanl))
+hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 
-hl.bind("ALT + CTRL + T", hl.dsp.exec_cmd(terminal .. kitty_args, {
+local optional_kitty_args = terminal .. (kitty_args ~= "" and (" " .. kitty_args) or "")
+hl.bind("ALT + CTRL + T", hl.dsp.exec_cmd(terminal .. optional_kitty_args, {
 	float = true,
 	move = { x = 50, y = 75},
 	size = { x = 500, y = 400}
 }))
 
-hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(terimanl .. " bash ~/vh.sh")) -- my nvim help notes
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(terminal .. " bash ~/vh.sh")) -- my nvim help notes
 
-hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd(terimanl .. " bash ~/hypr_conf.sh"))
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd(terminal .. " bash ~/hypr_conf.sh"))
 
-hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd(terimanl .. " nvim ~/Documents/my_conf_changelog"))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd(terminal .. " nvim ~/Documents/my_conf_changelog"))
 
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("~/.config/rofi/launchers/type-6/launcher.sh"))
 
@@ -207,9 +189,9 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("nemo"))
 
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("gedit -s"))
 
-hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(terimanl .. " emacs -nw"))
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(terminal .. " emacs -nw"))
 
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(terimanl .. " nvim"))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(terminal .. " nvim"))
 
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code"))
 
@@ -271,7 +253,7 @@ hl.bind("ALT + Tab", hl.dsp.window.alter_zorder({ mode = "top" }))
 
 hl.config({
     misc = {
-        focus_on_activate = 2,
+        focus_on_activate = 1,
         -- autofocus on new window and mouse moving (and also autofocus to browser when new page is loaded)
     },
 })
@@ -298,9 +280,9 @@ hl.bind(mainMod .. " + " .. 9, hl.dsp.focus({ workspace = 9 }))
 
 hl.bind(mainMod .. " + " .. 0, hl.dsp.focus({ workspace = 10 }))
 
-hl.bind(mainMod .. " + minus", hl.dsp.focus({ workspace = -1 }))
+hl.bind(mainMod .. " + minus", hl.dsp.focus({ workspace = "r-1" }))
 
-hl.bind(mainMod .. " + equal", hl.dsp.focus({ workspace = "+1" }))
+hl.bind(mainMod .. " + equal", hl.dsp.focus({ workspace = "r+1" }))
 
 ----- ПЕРЕМЕЩЕНИЕ ОКОН НА ДРУГОЙ ВОРКСПЕЙС -------------------------------------
 
@@ -324,9 +306,9 @@ hl.bind(mainMod .. " + SHIFT + 9", hl.dsp.window.move({ workspace = 9 }))
 
 hl.bind(mainMod .. " + SHIFT + 0", hl.dsp.window.move({ workspace = 10 }))
 
-hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.window.move({ direction = -1 }))
+hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.window.move({ workspace = "r-1" }))
 
-hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.window.move({ direction = "+1" }))
+hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.window.move({ workspace = "r+1" }))
 
 ----- ПЕРЕМЕЩЕНИЕ ПЛАВАЮЩИИХ ОКОН ----------------------------------------------
 
@@ -348,21 +330,21 @@ hl.bind(mainMod .. "+ ALT + down", hl.dsp.window.move({ x = 0, y = 50 }))
 
 ----- ПЕРЕМЕЩЕНИЕ ОКОН --------------------------------------------------------
 
-hl.bind(mainMod .. " + SHIFT + H", { direction = "l" })
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "l" }))
 
-hl.bind(mainMod .. " + SHIFT + L", { direction = "r" })
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "r" }))
 
-hl.bind(mainMod .. " + SHIFT + K", { direction = "u" })
+hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "u" }))
 
-hl.bind(mainMod .. " + SHIFT + J", { direction = "d" })
+hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "d" }))
 
-hl.bind(mainMod .. " + SHIFT + left", { direction = "l" })
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "l" }))
 
-hl.bind(mainMod .. " + SHIFT + right", { direction = "r" })
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r" }))
 
-hl.bind(mainMod .. " + SHIFT + up", { direction = "u" })
+hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u" }))
 
-hl.bind(mainMod .. " + SHIFT + down", { direction = "d" })
+hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d" }))
 
 ----- СКРАЧПАД -----------------------------------------------------------------
 
@@ -405,25 +387,25 @@ hl.bind(mainMod .. "+ CTRL + down", hl.dsp.window.resize({ x = 0, y = 50 }))
 -- hyprctl clients - что бы узнать класс приложения
 
 hl.window_rule({
-    name  = "match_class____file_",
+    name  = "file_manager_window_rule",
     match = {
-        class = "float on",
+        class = "^(" .. file_manager .. ")$",
     },
-    -- TODO: review rule: "match:class ^($file_manager)$"
+	float = true
 })
 
 hl.window_rule({
-    name  = "float_on",
+    name  = "xdg_desktop",
     match = {
-        match = "class ^(xdg-desktop-.*)$",
+        class = "^(xdg-desktop-.*)$",
     },
-    -- TODO: review rule: "float on"
+	float = true
 })
 
 hl.window_rule({
     name  = "scroll_touchpad_10",
     match = {
-        match = "class ^($terminal)$",
+        class = "^(" .. terminal .. ")$",
     },
     scroll_touchpad = 10,
 })
