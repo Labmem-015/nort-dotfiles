@@ -164,7 +164,7 @@ hl.bind("ALT + CTRL + T", hl.dsp.exec_cmd(terminal .. optional_kitty_args, {
 
 hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("~/.config/hypr/nort_hypr/rofi-clipboard.sh"))
 
-hl.bind(mainMod .. " + semicolon", hl.dsp.exec_cmd("rofimoji"))
+hl.bind(mainMod .. " + semicolon", hl.dsp.exec_cmd("emote"))
 
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(terminal .. " bash ~/vh.sh")) -- my nvim help notes
 
