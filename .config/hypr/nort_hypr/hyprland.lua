@@ -25,6 +25,13 @@ hl.config({
 --exec-once = nwg-dock-hyprland -r -mb 5 -x -i 56 -o DVI-D-1
 --exec-once = hyprctl setcursor Catppuccin-Mocha-Rosewater-Cursors 24
 
+hl.on("hyprland.start", function()
+    hl.exec_cmd("hypridle")
+    hl.exec_cmd("waybar")
+	hl.exec_cmd("wl-paste --type text --watch cliphist store ")
+	hl.exec_cmd("wl-paste --type image --watch cliphist store ")
+end)
+
 ----- ПЕРЕМЕННЫЕ ---------------------------------------------------------------
 
 local terminal = "foot" -- kitty
@@ -154,6 +161,8 @@ hl.bind("ALT + CTRL + T", hl.dsp.exec_cmd(terminal .. optional_kitty_args, {
 	move = { x = 50, y = 75},
 	size = { x = 500, y = 400}
 }))
+
+hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("~/.config/hypr/nort_hypr/rofi-clipboard.sh"))
 
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(terminal .. " bash ~/vh.sh")) -- my nvim help notes
 
@@ -474,8 +483,4 @@ hl.window_rule({
 
 -- #windowrule = noborder,^(Rofi)$
 
--- Autostart
-hl.on("hyprland.start", function()
-    hl.exec_cmd("hypridle")
-    hl.exec_cmd("waybar")
-end)
+
