@@ -158,11 +158,13 @@ hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 local optional_kitty_args = terminal .. (kitty_args ~= "" and (" " .. kitty_args) or "")
 hl.bind("ALT + CTRL + T", hl.dsp.exec_cmd(terminal .. optional_kitty_args, {
 	float = true,
-	move = { x = 50, y = 75},
-	size = { x = 500, y = 400}
+	move = { 50, 75},
+	size = { 500, 400}
 }))
 
 hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("~/.config/hypr/nort_hypr/rofi-clipboard.sh"))
+
+hl.bind(mainMod .. " + semicolon", hl.dsp.exec_cmd("rofimoji"))
 
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(terminal .. " bash ~/vh.sh")) -- my nvim help notes
 
@@ -321,21 +323,21 @@ hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.window.move({ workspace = "r+1" })
 
 ----- ПЕРЕМЕЩЕНИЕ ПЛАВАЮЩИИХ ОКОН ----------------------------------------------
 
-hl.bind(mainMod .. "+ ALT + H", hl.dsp.window.move({ x = -50, y = 0 }))
+hl.bind(mainMod .. "+ ALT + H", hl.dsp.window.move({ x = -50, y = 0, relative = true }))
 
-hl.bind(mainMod .. "+ ALT + L", hl.dsp.window.move({ x = 50, y = 0 }))
+hl.bind(mainMod .. "+ ALT + L", hl.dsp.window.move({ x = 50, y = 0, relative = true }))
 
-hl.bind(mainMod .. "+ ALT + K", hl.dsp.window.move({ x = 0, y = -50 }))
+hl.bind(mainMod .. "+ ALT + K", hl.dsp.window.move({ x = 0, y = -50, relative = true }))
 
-hl.bind(mainMod .. "+ ALT + J", hl.dsp.window.move({ x = 0, y = 50 }))
+hl.bind(mainMod .. "+ ALT + J", hl.dsp.window.move({ x = 0, y = 50, relative = true }))
 
-hl.bind(mainMod .. "+ ALT + left", hl.dsp.window.move({ x = -50, y = 0 }))
+hl.bind(mainMod .. "+ ALT + left", hl.dsp.window.move({ x = -50, y = 0, relative = true }))
 
-hl.bind(mainMod .. "+ ALT + right", hl.dsp.window.move({ x = 50, y = 0 }))
+hl.bind(mainMod .. "+ ALT + right", hl.dsp.window.move({ x = 50, y = 0, relative = true }))
 
-hl.bind(mainMod .. "+ ALT + up", hl.dsp.window.move({ x = 0, y = -50 }))
+hl.bind(mainMod .. "+ ALT + up", hl.dsp.window.move({ x = 0, y = -50, relative = true }))
 
-hl.bind(mainMod .. "+ ALT + down", hl.dsp.window.move({ x = 0, y = 50 }))
+hl.bind(mainMod .. "+ ALT + down", hl.dsp.window.move({ x = 0, y = 50, relative = true }))
 
 ----- ПЕРЕМЕЩЕНИЕ ОКОН --------------------------------------------------------
 
@@ -375,21 +377,21 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 ----- РЕСАЙЗ -------------------------------------------------------------------
 
-hl.bind(mainMod .. "+ CTRL + H", hl.dsp.window.resize({ x = -50, y = 0 }))
+hl.bind(mainMod .. "+ CTRL + H", hl.dsp.window.resize({ x = -50, y = 0, relative = true }))
 
-hl.bind(mainMod .. "+ CTRL + L", hl.dsp.window.resize({ x = 50, y = 0 }))
+hl.bind(mainMod .. "+ CTRL + L", hl.dsp.window.resize({ x = 50, y = 0, relative = true }))
 
-hl.bind(mainMod .. "+ CTRL + K", hl.dsp.window.resize({ x = 0, y = -50 }))
+hl.bind(mainMod .. "+ CTRL + K", hl.dsp.window.resize({ x = 0, y = -50, relative = true }))
 
-hl.bind(mainMod .. "+ CTRL + J", hl.dsp.window.resize({ x = 0, y = 50 }))
+hl.bind(mainMod .. "+ CTRL + J", hl.dsp.window.resize({ x = 0, y = 50, relative = true }))
 
-hl.bind(mainMod .. "+ CTRL + left", hl.dsp.window.resize({ x = -50, y = 0 }))
+hl.bind(mainMod .. "+ CTRL + left", hl.dsp.window.resize({ x = -50, y = 0, relative = true }))
 
-hl.bind(mainMod .. "+ CTRL + right", hl.dsp.window.resize({ x = 50, y = 0 }))
+hl.bind(mainMod .. "+ CTRL + right", hl.dsp.window.resize({ x = 50, y = 0, relative = true }))
 
-hl.bind(mainMod .. "+ CTRL + up", hl.dsp.window.resize({ x = 0, y = -50 }))
+hl.bind(mainMod .. "+ CTRL + up", hl.dsp.window.resize({ x = 0, y = -50, relative = true }))
 
-hl.bind(mainMod .. "+ CTRL + down", hl.dsp.window.resize({ x = 0, y = 50 }))
+hl.bind(mainMod .. "+ CTRL + down", hl.dsp.window.resize({ x = 0, y = 50, relative = true }))
 
 ----- ПРАВИЛА ОКОН -------------------------------------------------------------
 
