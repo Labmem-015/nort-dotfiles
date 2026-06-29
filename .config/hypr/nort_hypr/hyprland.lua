@@ -121,7 +121,7 @@ hl.config({
 hl.config({
     input = {
         kb_layout = "us,ru",
-        kb_options = "grp:win_space_toggle",
+        kb_options = "caps:swapescape,grp:win_space_toggle",
         follow_mouse = 1,
         sensitivity = 0,
         numlock_by_default = true,
@@ -260,7 +260,11 @@ hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 
-hl.bind("ALT + Tab", hl.dsp.window.alter_zorder({ mode = "top" }))
+hl.bind("ALT + TAB", function()
+    hl.dispatch(hl.dsp.window.cycle_next())
+    hl.dispatch(hl.dsp.window.bring_to_top())
+end)
+
 
 hl.config({
     misc = {
